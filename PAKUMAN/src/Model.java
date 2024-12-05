@@ -396,6 +396,54 @@ private void drawMaze(Graphics2D g2d) {
     
     
     //----Kris Start----//
+private void checkAndResetSpeed() {
+   	    if (speedTime && (System.currentTimeMillis() - speedStartTime) >= 5000) {
+   	        PACMAN_SPEED = 3;
+   	        speedTime = false;
+   	    }
+   	}
+
+ private void drawScore(Graphics2D g) {
+       g.setFont(smallFont);
+       g.setColor(new Color(5, 181, 79));
+       String s = "Score: " + score;
+       g.drawString(s, SCREEN_SIZE / 2 + 96, SCREEN_SIZE + 16);
+       for (int i = 0; i < lives; i++) {
+           g.drawImage(heart, i * 28 + 8, SCREEN_SIZE + 1, this);
+       }
+   }
+
+ private void initLevel() {
+       int i;
+       for (i = 0; i < N_BLOCKS * N_BLOCKS; i++) {
+           screenData[i] = levelData[i];
+       }
+       continueLevel();
+   }
+
+   void continueLevel() {
+   	int dx = 1;
+       int random;
+       for (int i = 0; i < N_GHOSTS; i++) {
+       	ghost_y[i] = (N_BLOCKS / 2) * BLOCK_SIZE;
+           ghost_x[i] = (N_BLOCKS / 2) * BLOCK_SIZE;
+           ghost_dy[i] = 0;
+           ghost_dx[i] = dx;
+           dx = -dx;
+           random = (int) (Math.random() * (currentSpeed + 1));
+           if (random > currentSpeed) {
+               random = currentSpeed;
+           }
+           ghostSpeed[i] = validSpeeds[1];
+       }
+       pacman_x = (N_BLOCKS / 2) * BLOCK_SIZE; 
+       pacman_y = 15 * BLOCK_SIZE;
+       pacmand_x = 0;	
+       pacmand_y = 0;
+       req_dx = 0;		
+       req_dy = 0;
+       dying = false;
+   }
 
     //----Kris End----------//
     
